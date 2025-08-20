@@ -1,3 +1,16 @@
+"""
+This server listens for GET requests on the /emotionDetector endpoint, extracts
+the text from the request, executes the sentiment analysis on the text and
+returns the result as a string.
+
+The sentiment analysis is executed by the emotion_detector() function in the
+EmotionDetection module. The function takes a string as an argument and
+returns a dictionary with the scores for the different emotions and the
+dominant emotion.
+
+The returned string is a simple text that describes the emotions detected in
+the text and the dominant emotion.
+"""
 from flask import Flask, render_template, request
 from EmotionDetection.emotion_detection import emotion_detector
 
