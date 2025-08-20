@@ -1,6 +1,5 @@
 from requests import post
 import operator
-import json
 
 def emotion_detector(text_to_analyse):
   print(f'Analyzing text: "{text_to_analyse}"')
