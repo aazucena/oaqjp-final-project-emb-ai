@@ -6,15 +6,30 @@ app = Flask(__name__)
 
 @app.route("/")
 def render_index_page():
+    """Renders the index page.
+
+    Returns:
+        The rendered index page.
+    """
     return render_template('index.html')
 
-@app.route("/emotionDetector")
-def sent_analyzer():
-    
-    text_to_analyse = request.args.get('textToAnalyze')
 
-    response = emotion_detector(text_to_analyse)
-    print(response)
+@app.route("/emotionDetector")
+def sentiment_analyzer():
+    """This function takes a text as an argument and analyzes it to identify the
+    emotions expressed in the text. It returns a string that describes the
+    emotions detected in the text and the dominant emotion.
+
+    Parameters:
+    text (string): The text to be analyzed.
+
+    Returns:
+    string: A string that describes the emotions detected in the text and
+    the dominant emotion.
+    """
+    text_to_analyze = request.args.get('textToAnalyze')
+
+    response = emotion_detector(text_to_analyze)
 
     anger = response['anger']
     disgust = response['disgust']
@@ -22,14 +37,17 @@ def sent_analyzer():
     joy = response['joy']
     sadness = response['sadness']
     dominant_emotion = response['dominant_emotion']
-    
-    if dominant_emotion == None:
-      result = "Invalid text! Please try again!."
-    else:
-      result = "For the given statement, the system response is 'anger': {}, 'disgust': {}, 'fear': {}, 'joy': {} and 'sadness': {}. The dominant emotion is {}.".format(anger, disgust, fear, joy, sadness, dominant_emotion)
-    print(result)
 
+    if dominant_emotion is None:
+        result = "Invalid text! Please try again!.<br>"
+    else:
+        result = (
+            f'For the given statement, the system response is '
+            f'"anger": {anger}, "disgust": {disgust}, "fear": {fear}, "joy": {joy} and '
+            f'"sadness": {sadness}. The dominant emotion is {dominant_emotion}.'
+        )
     return result
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
